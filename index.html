@@ -1,1 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aavishw</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --red: #e01020;
+      --red-dark: #8b0000;
+      --red-glow: #ff2233;
+      --black: #080808;
+      --black-2: #111111;
+      --black-3: #1a1a1a;
+      --white: #f0e8e8;
+      --grey: #444;
+    }
 
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Rajdhani', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(224,16,32,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(224,16,32,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 30px;
+    }
+
+    /* Top bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 80px;
+      animation: fadeDown 0.6s ease both;
+    }
+
+    .topbar-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 6px;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .topbar-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red-dark), transparent);
+      margin: 0 20px;
+    }
+
+    .topbar-tag {
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      color: var(--grey);
+      text-transform: uppercase;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      margin-bottom: 80px;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 6px;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 18vw, 12rem);
+      line-height: 0.9;
+      letter-spacing: -2px;
+      color: var(--white);
+      position: relative;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+
+    .hero-name span {
+      color: var(--red);
+      text-shadow: 0 0 40px rgba(224,16,32,0.5);
+    }
+
+    /* Glitch effect on hover */
+    .hero-name:hover {
+      animation: glitch 0.3s linear;
+    }
+
+    @keyframes glitch {
+      0%   { transform: translate(0); }
+      20%  { transform: translate(-3px, 2px); text-shadow: 3px 0 var(--red); }
+      40%  { transform: translate(3px, -2px); text-shadow: -3px 0 var(--red); }
+      60%  { transform: translate(-2px, 1px); }
+      80%  { transform: translate(2px, -1px); }
+      100% { transform: translate(0); }
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    .hero-tag {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 4px;
+      color: var(--grey);
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .hero-tag:hover { color: var(--white); }
+
+    .hero-tag.red {
+      color: var(--red);
+      text-shadow: 0 0 10px rgba(224,16,32,0.4);
+    }
+
+    .hero-tag.red:hover { color: var(--red-glow); }
+
+    .hero-tag-sep {
+      color: var(--red-dark);
+      font-size: 1rem;
+    }
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      color: var(--grey);
+      text-transform: uppercase;
+      margin-top: 20px;
+      animation: fadeUp 0.7s 0.4s ease both;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 50px 0;
+      animation: fadeUp 0.7s 0.5s ease both;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--black-3);
+    }
+
+    .divider-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px var(--red);
+    }
+
+    /* Contact Cards */
+    .contact-section {
+      animation: fadeUp 0.7s 0.6s ease both;
+    }
+
+    .contact-label {
+      font-size: 0.75rem;
+      letter-spacing: 5px;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 560px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    .contact-card {
+      background: var(--black-2);
+      border: 1px solid var(--black-3);
+      border-left: 3px solid var(--red-dark);
+      padding: 24px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+      text-decoration: none;
+      display: block;
+      cursor: pointer;
+    }
+
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(224,16,32,0.05), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .contact-card:hover {
+      border-left-color: var(--red-glow);
+      transform: translateX(4px);
+    }
+
+    .contact-card:hover::before { opacity: 1; }
+
+    .contact-card-type {
+      font-size: 0.65rem;
+      letter-spacing: 4px;
+      color: var(--grey);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .contact-card-value {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 1px;
+      word-break: break-all;
+    }
+
+    .contact-card-icon {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.5rem;
+      opacity: 0.15;
+      transition: opacity 0.3s;
+    }
+
+    .contact-card:hover .contact-card-icon { opacity: 0.4; }
+
+    /* Footer */
+    .footer {
+      margin-top: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeUp 0.7s 0.8s ease both;
+    }
+
+    .footer-text {
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      color: var(--grey);
+      text-transform: uppercase;
+    }
+
+    .footer-sig {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 4px;
+      color: var(--red-dark);
+    }
+
+    /* Corner accent */
+    .corner-accent {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-right: 2px solid var(--red-dark);
+      border-bottom: 2px solid var(--red-dark);
+      opacity: 0.4;
+      z-index: 10;
+    }
+
+    .corner-accent-tl {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      width: 60px;
+      height: 60px;
+      border-left: 2px solid var(--red-dark);
+      border-top: 2px solid var(--red-dark);
+      opacity: 0.4;
+      z-index: 10;
+    }
+
+    /* Scan line */
+    .scanline {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+      opacity: 0.6;
+      animation: scan 4s linear infinite;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0%   { top: 0; }
+      100% { top: 100vh; }
+    }
+
+    /* Keyframes */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Red pulse on name underline */
+    .hero-underline {
+      display: block;
+      width: 80px;
+      height: 3px;
+      background: var(--red);
+      margin-top: 14px;
+      box-shadow: 0 0 14px var(--red);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 14px var(--red); }
+      50%       { opacity: 0.5; box-shadow: 0 0 4px var(--red); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="scanline"></div>
+  <div class="corner-accent"></div>
+  <div class="corner-accent-tl"></div>
+
+  <div class="container">
+
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="topbar-logo">AV</div>
+      <div class="topbar-line"></div>
+      <div class="topbar-tag">Portfolio</div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-eyebrow">— Introducing</div>
+      <h1 class="hero-name">AAVIS<span>HQ</span></h1>
+      <span class="hero-underline"></span>
+      <div class="hero-tags">
+        <span class="hero-tag">Engineer</span>
+        <span class="hero-tag-sep">·</span>
+        <span class="hero-tag">Optimist</span>
+        <span class="hero-tag-sep">·</span>
+        <span class="hero-tag">Unorthodox</span>
+        <span class="hero-tag-sep">·</span>
+        <span class="hero-tag red">Liverpool Fan</span>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- Contact -->
+    <div class="contact-section">
+      <div class="contact-label">// Get in touch</div>
+      <div class="contact-grid">
+
+        <a class="contact-card" href="/cdn-cgi/l/email-protection#71101007180219005f01414831161c10181d5f121e1c">
+          <div class="contact-card-type">Email Address</div>
+          <div class="contact-card-value"><span class="__cf_email__" data-cfemail="a1c0c0d7c8d2c9d08fd19198e1c6ccc0c8cd8fc2cecc">[email&#160;protected]</span></div>
+          <div class="contact-card-icon">✉</div>
+        </a>
+
+        <a class="contact-card" href="tel:+916304926642">
+          <div class="contact-card-type">Phone Number</div>
+          <div class="contact-card-value">+91 6304926642</div>
+          <div class="contact-card-icon">☏</div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="
